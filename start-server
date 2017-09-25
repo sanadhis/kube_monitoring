@@ -1,0 +1,12 @@
+#!/bin/bash
+args1="$1"
+
+if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
+    echo "usage:"
+    echo "./start-server {APPLICATION PORT}"
+else
+    port="$1"
+    pushd "./kube_monitoring"
+    python manage.py runserver 0:$port
+    popd
+fi

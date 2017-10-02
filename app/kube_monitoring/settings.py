@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'influxdb_metrics',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +120,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+### REST FRAMEwORK SETTINGS ###
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
+### Influxdb Settings ###
+INFLUXDB_HOST = 'localhost'
+INFLUXDB_PORT = '8086'
+INFLUXDB_USER = 'root'
+INFLUXDB_PASSWORD = 'root'
+INFLUXDB_DATABASE = 'NOAA_water_database'
+
+# Seconds to wait for the request to the influxdb server before timing out
+INFLUXDB_TIMEOUT = 5
+
+# Set to true if connection to Influxdb is HTTPS
+INFLUXDB_SSL = False # default is False
+
+# Set this to True if you are using Celery
+INFLUXDB_USE_CELERY = False
+# Set this to True if you are not using Celery
+INFLUXDB_USE_THREADING = False

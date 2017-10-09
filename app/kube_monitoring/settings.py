@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_adminlte',
     'rest_framework',
     'influxdb_metrics',
 ]
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'kube_monitoring.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['web/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

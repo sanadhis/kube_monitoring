@@ -1,0 +1,13 @@
+{% extends 'adminlte/lib/_scripts.html' %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+
+{% endblock %}

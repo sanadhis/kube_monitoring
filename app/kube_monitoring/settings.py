@@ -133,10 +133,10 @@ REST_FRAMEWORK = {
 
 ### Influxdb Settings ###
 INFLUXDB_HOST = 'localhost'
-INFLUXDB_PORT = '8086'
+INFLUXDB_PORT = '6969'
 INFLUXDB_USER = 'root'
 INFLUXDB_PASSWORD = 'root'
-INFLUXDB_DATABASE = 'NOAA_water_database'
+INFLUXDB_DATABASE = 'k8s'
 
 # Seconds to wait for the request to the influxdb server before timing out
 INFLUXDB_TIMEOUT = 5

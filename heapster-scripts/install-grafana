@@ -1,0 +1,14 @@
+#!/bin/bash
+args1="$1"
+
+if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
+    echo "usage:"
+    echo "./install-grafana {INFLUXDB_PORT}"
+else
+    export INFLUXDB_PORT="$1"
+    mkdir -p temp
+    cp spec/grafana* temp/
+    eval "echo \"$(cat spec/grafana.yaml)\"" > temp/grafana.yaml
+    kubectl create -f temp/
+    rm -rf temp/
+fi

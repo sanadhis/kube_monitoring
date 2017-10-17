@@ -10,5 +10,5 @@ else
     cp spec/heapster* temp/
     eval "echo \"$(cat spec/heapster.yaml)\"" > temp/heapster.yaml
     kubectl create -f temp/
-    #rm -rf temp/
+    rm -rf temp/
 fi

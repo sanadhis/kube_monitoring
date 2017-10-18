@@ -26,6 +26,7 @@ spec:
         - /heapster
         - --source=kubernetes:https://kubernetes.default
         - --sink=influxdb:http://monitoring-influxdb.kube-system.svc:${INFLUXDB_PORT:-8086}
+        #- --sink=influxdb:http://monitoring-influxdb.kube-system.svc:${INFLUXDB_PORT:-8086}/?user=${INFLUXDB_USER:-root}&pw=${INFLUXDB_PASS:-root}
 ---
 apiVersion: v1
 kind: Service

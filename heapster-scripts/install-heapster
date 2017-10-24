@@ -3,12 +3,21 @@ args1="$1"
 
 if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
     echo "usage:"
-    echo "./install-heapster {INFLUXDB_PORT}"
+    echo "./install-heapster {INFXLUDB_HOST} {INFLUXDB_PORT} {INFLUXB_USER} {INFLUXDB_PASS}"
 else
-    export INFLUXDB_PORT="$1"
-    mkdir -p temp
-    cp spec/heapster* temp/
-    eval "echo \"$(cat spec/heapster.yaml)\"" > temp/heapster.yaml
-    kubectl create -f temp/
-    rm -rf temp/
+    export INFLUXDB_HOST="$1"
+    export INFLUXDB_PORT="$2"
+    export INFLUXDB_USER="$3"
+    export INFLUXDB_PASS="$4"
+
+    if [ -z $INFLUXDB_PASS ] ; then
+        echo "Please --help to figure out how to use this script"
+        exit 1
+    else
+        mkdir -p temp
+        cp spec/heapster* temp/
+        eval "echo \"$(cat spec/heapster.yaml)\"" > temp/heapster.yaml
+        kubectl create -f temp/
+        rm -rf temp/
+    fi    
 fi

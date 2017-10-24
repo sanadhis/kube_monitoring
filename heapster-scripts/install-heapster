@@ -11,7 +11,7 @@ else
     export INFLUXDB_PASS="$4"
 
     if [ -z $INFLUXDB_PASS ] ; then
-        echo "Please --help to figure out how to use this script"
+        echo "Please use flag --help to figure out how to use this script"
         exit 1
     else
         mkdir -p temp

@@ -10,27 +10,27 @@ function print-banner () {
 }
 
 print-banner "Input Grafana Host and Port"
-read -p "Enter Grafana Hostname: " grafana_host
-read -p "Enter Grafana Port: " grafana_port
-export "$grafana_host" 
-export "$grafana_port"
+read -p "Enter Grafana Hostname: " 1
+read -p "Enter Grafana Port: " 2
+export grafana_host="$1" 
+export grafana_port="$2"
 
 print-banner "Input Grafana Username and Password"
-read -p "Enter Grafana Username (default admin): " grafana_user
-read -p "Enter Grafana Password (default admin): " grafana_password
-export "$grafana_user" 
-export "$grafana_pass"
+read -p "Enter Grafana Username (default admin): " 1
+read -p "Enter Grafana Password (default admin): " 2
+export grafana_user="$1" 
+export grafana_pass="$2"
 
 print-banner "Input influxdb Host and Port"
 read -p "Enter influxdb Hostname: " influxdb_host
 read -p "Enter influxdb Port (default 8086): " influxdb_port
-export "$influxdb_host" 
-export "$influxdb_port"
+export influxdb_host="$1" 
+export influxdb_port="$2"
 
 print-banner "Input influxdb Username and Password"
 read -p "Enter influxdb Username: " influxdb_user
 read -p "Enter influxdb Password: " influxdb_password
-export "$influxdb_user" 
-export "$influxdb_pass"
+export influxdb_user="$1"" 
+export influxdb_pass="$2""
 
 ./temp/conf-datasource-api

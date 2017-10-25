@@ -10,7 +10,7 @@ function print-banner () {
 }
 
 print-banner "Input Grafana Host and Port"
-read -p "Enter Grafana Hostname: " host
+read -p "Enter Grafana Hostname (with http://): " host
 read -p "Enter Grafana Port: " port
 export grafana_host="$host" 
 export grafana_port="$port"
@@ -30,7 +30,7 @@ export influxdb_port="$port"
 print-banner "Input influxdb Username and Password"
 read -p "Enter influxdb Username: " user
 read -p "Enter influxdb Password: " pass
-export influxdb_user="$user"" 
-export influxdb_pass="$pass""
+export influxdb_user="$user" 
+export influxdb_pass="$pass"
 
 ./temp/grafana-conf-datasource-api

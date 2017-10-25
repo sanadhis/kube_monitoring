@@ -16,7 +16,7 @@ function main () {
             "type": "influxdb",
             "typeLogoUrl": "",
             "access": "proxy",
-            "url": "'${influxdb_host}':'${influxdb_port}'",
+            "url": "'${influxdb_host}':'${influxdb_port:-8086}'",
             "password": "'${influxdb_pass}'",
             "user": "'${influxdb_user}'",
             "database": "k8s",

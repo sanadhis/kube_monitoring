@@ -33,4 +33,4 @@ read -p "Enter influxdb Password: " pass
 export influxdb_user="$user"" 
 export influxdb_pass="$pass""
 
-./temp/conf-datasource-api
+./temp/grafana-conf-datasource-api

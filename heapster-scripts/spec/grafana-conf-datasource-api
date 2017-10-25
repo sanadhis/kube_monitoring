@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+function main () {
+    curl -XPUT \
+        "${grafana_host}:${grafana_port}/api/datasources/1" \
+        -H "Accept: application/json" \
+        -H "Content-Type: application/json" \
+        --user ${grafana_user:-admin}:${grafana_pass:-admin} \
+        -d \
+        '{
+            "id": 1,
+            "orgId": 1,
+            "name": "influxdb-datasource",
+            "type": "influxdb",
+            "typeLogoUrl": "",
+            "access": "proxy",
+            "url": "'${influxdb_host}':'${influxdb_port}'",
+            "password": "'${influxdb_pass}'",
+            "user": "'${influxdb_user}'",
+            "database": "k8s",
+            "basicAuth": false,
+            "basicAuthUser": "",
+            "basicAuthPassword": "",
+            "withCredentials": false,
+            "isDefault": true,
+            "jsonData": {},
+            "secureJsonFields": {}
+        }' 
+}
+
+main

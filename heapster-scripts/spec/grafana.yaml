@@ -25,7 +25,11 @@ spec:
           name: grafana-storage
         env:
         - name: INFLUXDB_HOST
-          value: monitoring-influxdb
+          value: ${INFLUXDB_HOST:-monitoring-influxdb}
+        - name: INFLUXDB_USER
+          value: "titit"
+        - name: INFLUXDB_USERNAME
+          value: "titit"
         - name: GF_SERVER_HTTP_PORT
           value: "3000"
           # The following env variables are required to make Grafana accessible via

@@ -3,7 +3,7 @@ args1="$1"
 
 if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
     echo "usage:"
-    echo "./install-grafana {INFLUXDB_PORT}"
+    echo "./install-grafana {INFLUXDB_HOST}"
 else
     export INFLUXDB_HOST="$1"
     export INFLUXDB_PORT="$2"
@@ -19,5 +19,6 @@ else
         eval "echo \"$(cat spec/grafana.yaml)\"" > temp/grafana.yaml
         kubectl create -f temp/
         rm -rf temp/
+        sleep 10
     fi    
 fi

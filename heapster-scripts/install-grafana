@@ -3,22 +3,14 @@ args1="$1"
 
 if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
     echo "usage:"
-    echo "./install-grafana {INFLUXDB_HOST}"
+    echo "./install-grafana"
+    exit 0
 else
-    export INFLUXDB_HOST="$1"
-    export INFLUXDB_PORT="$2"
-    export INFLUXDB_USER="$3"
-    export INFLUXDB_PASS="$4"
-
-    if [ -z $INFLUXDB_PASS ] ; then
-        echo "Please use flag --help to figure out how to use this script"
-        exit 1
-    else
-        mkdir -p temp
-        cp spec/grafana* temp/
-        eval "echo \"$(cat spec/grafana.yaml)\"" > temp/grafana.yaml
-        kubectl create -f temp/
-        rm -rf temp/
-        sleep 10
-    fi    
+    mkdir -p temp
+    cp spec/grafana* temp/
+    eval "echo \"$(cat spec/grafana.yaml)\"" > temp/grafana.yaml
+    kubectl create -f temp/
+    ./config-influxdb-datasource
+    sleep 2
+    rm -rf temp/
 fi

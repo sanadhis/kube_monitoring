@@ -24,6 +24,6 @@ Deploy heapster/grafana with customized influxdb target
 
 ```
 $ ./install-heapster [INFLUXDB_HOST] [INFLUXDB_PORT] [INFLUXDB_USERNAME] [INFLUXDB_PASSWORD]
-$ ./install-grafana [INFLUXDB_HOST] [INFLUXDB_PORT] [INFLUXDB_USERNAME] [INFLUXDB_PASSWORD]
+$ ./install-grafana
 
 ```

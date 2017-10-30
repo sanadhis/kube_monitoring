@@ -1,0 +1,17 @@
+#!/bin/bash
+args1="$1"
+
+# For local testing within Kubernetes Cluster
+if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
+    echo "usage:"
+    echo "./install-dev
+else
+    mkdir -p temp
+    cp spec/heapster-rbac.yaml temp/
+    cp spec/influxdb.yaml temp/
+    eval "echo \"$(cat spec/heapster.yaml)\"" > temp/heapster.yaml
+    eval "echo \"$(cat spec/grafana.yaml)\"" > temp/grafana.yaml    
+    kubectl create -f temp/
+    rm -rf temp/
+    fi    
+fi

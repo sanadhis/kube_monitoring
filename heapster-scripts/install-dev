@@ -4,7 +4,7 @@ args1="$1"
 # For local testing within Kubernetes Cluster
 if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
     echo "usage:"
-    echo "./install-dev
+    echo "./install-dev"
 else
     mkdir -p temp
     cp spec/heapster-rbac.yaml temp/

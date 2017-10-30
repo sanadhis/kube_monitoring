@@ -13,5 +13,4 @@ else
     eval "echo \"$(cat spec/grafana.yaml)\"" > temp/grafana.yaml    
     kubectl create -f temp/
     rm -rf temp/
-    fi    
 fi

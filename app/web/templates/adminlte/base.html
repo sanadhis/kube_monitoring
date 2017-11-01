@@ -14,6 +14,7 @@
                 <th style="width: 10px">No</th>
                 <th>Time</th>
                 <th>Pod Name</th>
+                <th>Namespace</th>
                 <th>Container Name</th>
                 <th>Nodename</th>
                 <th>Value</th>          
@@ -24,6 +25,7 @@
                 <th style="width: 10px">No</th>
                 <th>Time</th>
                 <th>Pod Name</th>
+                <th>Namespace</th>
                 <th>Container Name</th>
                 <th>Nodename</th>
                 <th>Value</th>          
@@ -35,6 +37,7 @@
           <td>{{ forloop.counter }}</td>
           <td>{{ item.time }}</td>
           <td>{{ item.pod_name }}</td>
+          <td>{{ item.namespace_name }}</td>
           <td>{{ item.container_name }}</td>
           <td>{{ item.nodename }}</td>
           <td>{{ item.value }}</td>                   

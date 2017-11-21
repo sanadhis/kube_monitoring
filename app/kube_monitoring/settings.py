@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import logging.config
+import yaml
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -148,3 +150,9 @@ INFLUXDB_SSL = False # default is False
 INFLUXDB_USE_CELERY = False
 # Set this to True if you are not using Celery
 INFLUXDB_USE_THREADING = False
+
+## Custom logging settting
+LOGGING_CONFIG = None
+with open("kube_monitoring/log.yaml", "r") as ymlfile:
+    config = yaml.load(ymlfile)
+logging.config.dictConfig(config)

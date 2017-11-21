@@ -2,3 +2,5 @@
 *db.sqlite3
 temp/
 .DS_Store
+app/logs/info.log
+app/logs/errors.log

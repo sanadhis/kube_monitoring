@@ -6,7 +6,7 @@ if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
     echo "./start-server {APPLICATION PORT}"
 else
     port="$1"
-    pushd "./kube_monitoring"
+    pushd "./app"
     python manage.py runserver 0:$port
     popd
 fi

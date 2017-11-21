@@ -132,11 +132,11 @@ REST_FRAMEWORK = {
 }
 
 ### Influxdb Settings ###
-INFLUXDB_HOST = 'localhost'
-INFLUXDB_PORT = '6969'
-INFLUXDB_USER = 'root'
-INFLUXDB_PASSWORD = 'root'
-INFLUXDB_DATABASE = 'k8s'
+INFLUXDB_HOST     = os.getenv("INFLUXDB_HOST","localhost")
+INFLUXDB_PORT     = os.getenv("INFLUXDB_PORT","8086")
+INFLUXDB_USER     = os.getenv("INFLUXDB_USER","root")
+INFLUXDB_PASSWORD = os.getenv("INFLUXDB_PASS","root")
+INFLUXDB_DATABASE = os.getenv("INFLUXDB_DB","k8s")
 
 # Seconds to wait for the request to the influxdb server before timing out
 INFLUXDB_TIMEOUT = 5

@@ -1,8 +1,5 @@
 from influxdb import InfluxDBClient
 from django.http import HttpResponse, JsonResponse
-from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
 from influxdb_metrics.utils import query
@@ -19,8 +16,9 @@ def index(request):
             result = [x for x in h2o_data.get_points()]
             return JsonResponse(result,safe=False)
         except ConnectionError as e:
-            content = {'please move along': 'nothing to see here'}
-            return Response(content, status=status.HTTP_404_NOT_FOUND)
+            message = {"code":500,"message":"Can't connect to influxdb"}
+            return JsonResponse(message,status=500)
+        
     elif request.method == 'POST':
         body = request.body
         return HttpResponse(body)

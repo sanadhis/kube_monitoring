@@ -24,14 +24,14 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'users', views.UserViewSet)
+# router.register(r'groups', views.GroupViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^', include('web.urls')),
     url(r'^api/', newViews.index, name='index'),
     url(r'^web/', include('web.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))

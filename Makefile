@@ -1,6 +1,6 @@
 all: build
 
-DOCKER_REPO?=sanadhis/kube_monitoring
+DOCKER_REPO?=sanadhis/kube-monitoring
 VERSION?=0.1
 
 PWD:=$(shell pwd)

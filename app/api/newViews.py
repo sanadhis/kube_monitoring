@@ -5,6 +5,7 @@ from rest_framework import permissions
 from influxdb_metrics.utils import query
 from requests.exceptions import ConnectionError
 from influxdb.exceptions import InfluxDBClientError
+from django.core import serializers
 import json
 import logging
 import re
@@ -14,22 +15,48 @@ logger = logging.getLogger(__name__)
 @api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 def index(request):
+    path = request.path
+    measurement = re.findall(r'^/api/(\S+)',path)[0]
+
     if request.method == 'GET':
-        path = request.path
-        measurement = re.findall(r'^/api/(\S+)',path)[0]
         try:
             queryDB  = 'SELECT * from "' + measurement + '" LIMIT 10'
-            gpu_data = query(queryDB)
-            result = [x for x in gpu_data.get_points()]
-            return JsonResponse(result,safe=False)
+            logger.debug(queryDB)
+
+            kube_data = query(queryDB)
+            response_message = (list(kube_data.get_points()))
+            status   = 200
         except ConnectionError as e:
-            message = {"code":500,"message":"Can't connect to influxdb"}
-            return JsonResponse(message,status=500)
+            response_message = {"code":500,"message":"Can't connect to influxdb"}
+            status   = 500            
         except InfluxDBClientError as e:
-            message = {"code":500,"message":"Wrong configuration to influxdb"}
+            response_message = {"code":500,"message":"Wrong configuration to influxdb"}
             logger.error(e)
-            return JsonResponse(message,status=500)
-        
+            status   = 500            
+            
     elif request.method == 'POST':
-        body = request.body
-        return HttpResponse(body)
+        body = json.loads(request.body.decode())
+        try:
+            namespace = body['namespace']
+            limit     = body['limit']
+            queryDB  = 'SELECT * FROM "' + measurement + '" WHERE (namespace_name = \'' + namespace + '\') LIMIT ' + limit
+            logger.debug(queryDB)
+
+            kube_data = query(queryDB)                        
+            response_message = json.dumps(list(kube_data.get_points()))
+            status   = 200
+        except KeyError:
+            response_message = {"code":500,"message":"Request body is not valid"}
+            logger.error("Invalid request body")
+            status   = 500  
+        except ConnectionError as e:
+            response_message = {"code":500,"message":"Can't connect to influxdb"}
+            logger.error("Connection to influxdb server fails")            
+            status   = 500            
+        except InfluxDBClientError as e:
+            response_message = {"code":500,"message":"Wrong configuration or query to influxdb"}
+            logger.error(e)
+            status   = 500  
+
+    return JsonResponse(response_message, status=status, safe=False)
+    

@@ -7,6 +7,7 @@ from requests.exceptions import ConnectionError
 from influxdb.exceptions import InfluxDBClientError
 import json
 import logging
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +15,10 @@ logger = logging.getLogger(__name__)
 @permission_classes((permissions.AllowAny,))
 def index(request):
     if request.method == 'GET':
+        path = request.path
+        measurement = re.findall(r'^/api/(\S+)',path)[0]
         try:
-            queryDB  = 'SELECT * from "gpu/usage" LIMIT 10'
+            queryDB  = 'SELECT * from "' + measurement + '" LIMIT 10'
             gpu_data = query(queryDB)
             result = [x for x in gpu_data.get_points()]
             return JsonResponse(result,safe=False)

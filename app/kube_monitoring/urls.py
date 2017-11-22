@@ -16,8 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
-from api import views
-from api import newViews
 admin.autodiscover()
 
 urlpatterns = [
@@ -32,7 +30,7 @@ urlpatterns = [
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include('web.urls')),
-    url(r'^api/', newViews.index, name='index'),
+    url(r'^api/', include('api.urls')),
     url(r'^web/', include('web.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

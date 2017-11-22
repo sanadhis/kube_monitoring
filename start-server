@@ -7,7 +7,13 @@ if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
 else
     port="$1"
     pushd "./app"
-    mkdir -p logs
-    python manage.py runserver 0:$port
+    if mkdir -p /logs/kube-monitoring ; then # this should working inside docker
+        echo "Success creating logs dir"
+        python manage.py runserver 0:$port        
+    else
+        echo "Fail creating logs dir, please run:"
+        echo "sudo mkdir -p /logs/kube-monitoring"
+        echo 'sudo chown $(id -u):$(id -g) /logs/kube-monitoring'
+    fi
     popd
 fi

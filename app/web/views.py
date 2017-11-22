@@ -16,6 +16,7 @@ def index(request):
             'title' : "CPU Usage",
             'result': result,
         }
+        logger.info("Influxdb is working")
         return HttpResponse(template.render(context, request))
     
     except ConnectionError as err:

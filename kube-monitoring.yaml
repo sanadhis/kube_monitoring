@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: kube-monitoring
+spec:
+  selector:
+    matchLabels:
+      app: kube-monitoring-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kube-monitoring-app
+    spec:
+      containers:
+      - name: kube-monitoring-app
+        image: sanadhis/kube-monitoring-app:0.1
+        ports:
+        - containerPort: 8000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kube-monitoring
+spec:
+  type: NodePort
+  ports:
+    - port: 9428
+      targetPort: 8000
+      name: kube-monitoring-app
+      protocol: TCP
+  selector:
+    app: kube-monitoring-app

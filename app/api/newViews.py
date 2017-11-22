@@ -15,8 +15,12 @@ logger = logging.getLogger(__name__)
 @api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 def index(request):
-    path = request.path
-    measurement = re.findall(r'^/api/(\S+)',path)[0]
+    try:
+        path = request.path
+        measurement = re.findall(r'^/api/(\S+)',path)[0]
+    except IndexError:
+        response_message = {"code":404,"message":"Not found"}
+        return JsonResponse(response_message, status=404, safe=False)
 
     if request.method == 'GET':
         try:

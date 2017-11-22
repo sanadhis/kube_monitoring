@@ -2,16 +2,7 @@
 args1="$1"
 
 function setupDjangoWithPip() {
-    softwares=("django==1.11.5 \
-                djangorestframework==3.6.4 \
-                markdown==2.6.9 \
-                django-filter==1.0.4 \
-                influxdb==4.1.1 \
-                django-influxdb-metrics")
-    for software in $softwares
-    do
-        pip install $software
-    done
+    pip install --no-cache-dir -r requirements.txt
 }
 
 # conda doesn't has influxdb 4.1.1 and django-influxdb-metrics

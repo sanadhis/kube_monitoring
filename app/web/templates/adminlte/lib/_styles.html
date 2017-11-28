@@ -1,10 +1,10 @@
 {% extends 'adminlte/lib/_styles.html' %}
-{% load static %}
+{% load staticfiles %}
 
-{% block scripts %}
+{% block styles %}
 {{ block.super }}
 
-<link rel="icon" href="{% static 'images/page_icon.png' %}">
+<link rel="icon" href="{% static "images/page_icon.png" %}">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
 
 {% endblock %}

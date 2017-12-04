@@ -20,6 +20,42 @@ $ #install django with pip
 $ pip install Django
 ```
 
+### Supported Metrics
+* cpu/limit
+* cpu/node_allocatable
+* cpu/node_capacity
+* cpu/node_reservation
+* cpu/node_utilization
+* cpu/request
+* cpu/usage
+* cpu/usage_rate
+* filesystem/inodes
+* filesystem/inodes_free
+* filesystem/limit
+* filesystem/usage
+* memory/cache
+* memory/limit
+* memory/major_page_faults
+* memory/major_page_faults_rate
+* memory/node_allocatable
+* memory/node_capacity
+* memory/node_reservation
+* memory/node_utilization
+* memory/page_faults
+* memory/page_faults_rate
+* memory/request
+* memory/rss
+* memory/usage
+* memory/working_set
+* network/rx
+* network/rx_errors
+* network/rx_errors_rate
+* network/rx_rate
+* network/tx
+* network/tx_errors
+* network/tx_errors_rate
+* network/tx_rate
+
 ### Installing
 
 A step by step series of examples that tell you have to get a development env running

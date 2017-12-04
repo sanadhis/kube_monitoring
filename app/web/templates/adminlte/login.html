@@ -1,0 +1,91 @@
+{% load i18n static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin-lte/dist/css/AdminLTE.min.css' %}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><img src="{% static 'images/kube_logo.png' %}" width="25%" height="25%"><br>Kube Monitoring - Web</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        {% block content %}
+        {% if form.errors and not form.non_field_errors %}
+            <p class="alert alert-danger">
+                {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
+                    {% trans "Please correct the errors below." %}{% endif %}
+            </p>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="alert alert-danger">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        {% endif %}
+
+
+        <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+            <div class="form-group has-feedback">
+                <input type="text" id="id_username" name="username" class="form-control" placeholder="Username">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                {{ form.username.errors }}
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" id="id_password" name="password" class="form-control"
+                    placeholder="Password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                {{ form.password.errors }}
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </div>
+            <div class="col-xs-8"><!-- Empty for indent --></div>
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit"
+                            class="btn btn-primary btn-block btn-flat">{% trans 'Log In' %}</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+
+        {% if user.is_authenticated %}
+            <p class="alert alert-danger">
+                {% blocktrans trimmed %}
+                    You are authenticated as {{ username }}, but are not authorized to
+                    access this page. Would you like to login to a different account?
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+        {% endblock %}
+        <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box -->
+
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

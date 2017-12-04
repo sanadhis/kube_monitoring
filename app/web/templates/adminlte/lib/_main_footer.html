@@ -1,0 +1,18 @@
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+        {% block footer_right %}
+            <b>Version</b> {% block version %}0.2{% endblock %} &nbsp; 
+            <a href="https://github.com/epfl-vlsc" target="_blank">
+                <i class="fa fa-github"></i>Repository
+            </a>
+        {% endblock %}
+    </div>
+
+    {% block footer_left %}
+    {% block legal %}
+    <strong>Copyright EPFL &copy; {% now "Y" %}{% if not site %}.{% endif %}
+    </strong>All rights
+    reserved.
+    {% endblock %}
+    {% endblock %}
+</footer>

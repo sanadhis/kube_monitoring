@@ -28,7 +28,7 @@
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
-
+        {% if message is defined %}{{ message }}{% endif %}
         {% block content %}
         {% if form.errors and not form.non_field_errors %}
             <p class="alert alert-danger">
@@ -45,16 +45,14 @@
             {% endfor %}
         {% endif %}
 
-
-        <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+        <form action="{{ form_path }}" method="post" id="login-form">{% csrf_token %}
             <div class="form-group has-feedback">
-                <input type="text" id="id_username" name="username" class="form-control" placeholder="Username">
+                <input type="text" id="id_username" name="username" class="form-control" placeholder="Username" required>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 {{ form.username.errors }}
             </div>
             <div class="form-group has-feedback">
-                <input type="password" id="id_password" name="password" class="form-control"
-                    placeholder="Password">
+                <input type="password" id="id_password" name="password" class="form-control" placeholder="Password" required>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 {{ form.password.errors }}
                 <input type="hidden" name="next" value="{{ next }}"/>

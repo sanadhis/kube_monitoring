@@ -6,10 +6,12 @@
 
 {% block nav_links %}
 {% for item in measurements %}
+{% if item.name != "django_auth_user_login" %}
     <li>
         <a href="/web/stats/{{ item.name }}">
             <i class="fa fa-dashboard text-green"></i> <span>{{ item.name }}</span>
         </a>
     </li>
+{% endif %}
 {% endfor %}
 {% endblock nav_links %}

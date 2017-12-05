@@ -22,10 +22,6 @@ import os
 
 logger = logging.getLogger(__name__)
 
-## Custom user authentication for web
-WEB_USERNAME = os.getenv("WEB_USERNAME")
-WEB_PASSWORD = os.getenv("WEB_PASSWORD")
-
 @api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 @login_required(login_url='/web/login/')
@@ -56,8 +52,9 @@ def index(request):
     namespace = "default"
     limit     = "100"
     context = {
-                'title' : "Kube Monitoring",
+                'title'        : "Kube Monitoring",
                 'measurements' : measurements,
+                'logout_url'   : "/web/authentication/signout",
                }
 
     if table == "index":

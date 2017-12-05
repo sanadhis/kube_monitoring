@@ -45,11 +45,11 @@
                                 {% block menu_footer %}
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="{% block change_password_url %}{% url 'admin:password_change' %}{% endblock %}"
-                                           class="btn btn-default btn-flat">{% trans 'Change password' %}</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="{% block logout_url %}{% logout_url %}{% endblock %}" class="btn btn-default btn-flat">Sign out</a>
+                                        <form action="{{ logout_url }}" method="post">{% csrf_token %}
+                                            <button type="submit" name="{% firstof request.user.get_short_name request.user.get_username %}" value="signout" class="btn btn-default btn-flat">Sign out</button>
+                                        </form>
                                     </div>
                                 </li>
                                 {% endblock %}

@@ -87,8 +87,11 @@ def index(request):
     return HttpResponse(template.render(context, request),status=status)
 
 def render_login(request):
-    template = loader.get_template('adminlte/login.html')
-    context  = {}
-    context["form_path"] = "/web/authentication/signin"
-    status   = 200     
-    return HttpResponse(template.render(context, request),status=status)
+    if request.user.is_authenticated:
+        return redirect('/web/stats/index')
+    else:
+        template = loader.get_template('adminlte/login.html')
+        context  = {}
+        context["form_path"] = "/web/authentication/signin"
+        status   = 200     
+        return HttpResponse(template.render(context, request),status=status)

@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 def verify_request(func):
     def check_request(request):
         if request.method == 'GET':
-            return redirect('/web/login')
+            return redirect('/web/login/')
         elif request.method == 'POST':
             return func(request)
     return check_request
@@ -24,9 +24,9 @@ def signin(request):
         return redirect('/web/stats/index')
     else:
         logger.info("Login Failed")
-        return redirect('/web/login')
+        return redirect('/web/login/')
 
 @verify_request
 def signout(request):
     logout(request)
-    return redirect('/web/login')
+    return redirect('/web/login/')

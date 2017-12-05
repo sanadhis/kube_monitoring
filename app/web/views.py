@@ -50,7 +50,7 @@ def index(request):
 
     # Set default request
     namespace = "default"
-    limit     = "100"
+    limit     = "1000"
     context = {
                 'title'        : "Kube Monitoring",
                 'measurements' : measurements,
@@ -62,12 +62,12 @@ def index(request):
         status   = 200                
     else:                
         try:
-            influx_query = 'SELECT * FROM "' + table + '" WHERE (namespace_name = \'' + namespace + '\') LIMIT ' + limit
+            influx_query = 'SELECT * FROM "' + table + '" where namespace_name != \'\' ORDER BY time desc LIMIT ' + limit
             stats        = query(influx_query)
             result       = list(stats.get_points())
             title        = (table.replace("/"," ")).upper()
             template     = loader.get_template('adminlte/base.html')        
-            
+        
             context['title']  =  title
             context['result'] = result
             

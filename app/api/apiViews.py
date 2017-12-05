@@ -4,15 +4,13 @@ from influxdb_metrics.utils import query
 from influxdb.exceptions    import InfluxDBClientError
 
 # Django core
-from django.core import serializers
 from django.http import JsonResponse
-
-# Rest framework core
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework            import permissions
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # Python native
 from requests.exceptions import ConnectionError
+from json.decoder import JSONDecodeError
 import json
 import logging
 import re
@@ -24,9 +22,9 @@ logger = logging.getLogger(__name__)
 API_USERNAME = os.getenv("API_USERNAME")
 API_PASSWORD = os.getenv("API_PASSWORD")
 
-@api_view(['GET', 'POST'])
-@permission_classes((permissions.AllowAny,))
+@method_decorator(csrf_exempt, name='dispatch')
 def index(request):
+
     if request.method == 'GET':
         logger.info("Attempt to perform GET request")
         response_message = {"code":400,"message":"Bad request using GET"}
@@ -53,30 +51,34 @@ def index(request):
             except IndexError:
                 response_message = {"code":404,"message":"Request not found"}
                 return JsonResponse(response_message, status=404, safe=False)
-            
+
             # Set default request
             namespace = "default"
             limit     = "100"
+            body = {}
             
-            # Get request body
-            body = json.loads(request.body.decode())        
-
+            try:
+                # Get request body
+                body = json.loads(request.body.decode())  
+            except JSONDecodeError:
+                logger.info("No request body provided")
+            
             try:
                 namespace = body['namespace']
             except KeyError:
-                logger.debug("Invalid request body, settings request namespace property as default")            
+                logger.info("Invalid request body, settings request namespace property as default")            
 
             try:
                 limit = body['limit']
             except KeyError:
-                logger.debug("Invalid request body, settings request limit property as default")   
+                logger.info("Invalid request body, settings request limit property as default")   
 
             try:
-                influx_query   = 'SELECT * FROM "' + measurement + '" WHERE (namespace_name = \'' + namespace + '\') LIMIT ' + limit
-                logger.debug(influx_query)
+                influx_query   = 'SELECT * FROM "' + measurement + '" where namespace_name = \'' + namespace + '\' ORDER BY time desc LIMIT ' + limit
+                logger.info(influx_query)
 
                 kube_data        = query(influx_query)                        
-                response_message = json.dumps(list(kube_data.get_points()))
+                response_message = list(kube_data.get_points())
                 status           = 200
             except ConnectionError as e:
                 logger.error("Connection to influxdb server fails")                        

@@ -16,12 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from rest_framework import routers
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include('web.urls')),
-    # url(r'^login/$', auth_views.login, name='login'),
     url(r'^api/', include('api.urls')),
+    url(r'^api', RedirectView.as_view(url='api/', permanent=False)),    
     url(r'^web/', include('web.urls')),
+    url(r'^.*$', include('web.urls')),
 ]

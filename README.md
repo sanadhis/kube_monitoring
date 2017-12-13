@@ -20,63 +20,41 @@ $ #install django with pip
 $ pip install Django
 ```
 
-### Supported Metrics for API
-| Metric Name | Description |
-|------------|-------------|
-| cpu/limit | CPU hard limit in millicores. |
-| cpu/node_capacity | Cpu capacity of a node. |
-| cpu/node_allocatable | Cpu allocatable of a node. |
-| cpu/node_reservation | Share of cpu that is reserved on the node allocatable. |
-| cpu/node_utilization | CPU utilization as a share of node allocatable. |
-| cpu/request | CPU request (the guaranteed amount of resources) in millicores. |
-| cpu/usage | Cumulative CPU usage on all cores. |
-| cpu/usage_rate | CPU usage on all cores in millicores. |
-| filesystem/usage | Total number of bytes consumed on a filesystem. |
-| filesystem/limit | The total size of filesystem in bytes. |
-| filesystem/available | The number of available bytes remaining in a the filesystem |
-| filesystem/inodes | The number of available inodes in a the filesystem |
-| filesystem/inodes_free | The number of free inodes remaining in a the filesystem |
-| gpu/usage | GPU usage on all available gpus in MB |
-| memory/limit | Memory hard limit in bytes. |
-| memory/major_page_faults | Number of major page faults. |
-| memory/major_page_faults_rate | Number of major page faults per second. |
-| memory/node_capacity | Memory capacity of a node. |
-| memory/node_allocatable | Memory allocatable of a node. |
-| memory/node_reservation | Share of memory that is reserved on the node allocatable. |
-| memory/node_utilization | Memory utilization as a share of memory allocatable. |
-| memory/page_faults | Number of page faults. |
-| memory/page_faults_rate | Number of page faults per second. |
-| memory/request | Memory request (the guaranteed amount of resources) in bytes. |
-| memory/usage | Total memory usage. |
-| memory/cache | Cache memory usage. |
-| memory/rss | RSS memory usage. |
-| memory/working_set | Total working set usage. Working set is the memory being used and not easily dropped by the kernel. |
-| network/rx | Cumulative number of bytes received over the network. |
-| network/rx_errors | Cumulative number of errors while receiving over the network. |
-| network/rx_errors_rate | Number of errors while receiving over the network per second. |
-| network/rx_rate | Number of bytes received over the network per second. |
-| network/tx | Cumulative number of bytes sent over the network |
-| network/tx_errors | Cumulative number of errors while sending over the network |
-| network/tx_errors_rate | Number of errors while sending over the network |
-| network/tx_rate | Number of bytes sent over the network per second. |
-| uptime  | Number of milliseconds since the container was started. |
-
-### Supported Metrics for Web
-| Metric Name | Description |
-|------------|-------------|
-| cpu/node_capacity | Cpu capacity of a node. |
-| cpu/usage | Cumulative CPU usage on all cores. |
-| cpu/usage_rate | CPU usage on all cores in millicores. |
-| gpu/usage | GPU usage on all available gpus in MB |
-| memory/node_capacity | Memory capacity of a node. |
-| memory/usage | Total memory usage. |
-| memory/cache | Cache memory usage. |
-| memory/rss | RSS memory usage. |
-| network/rx | Cumulative number of bytes received over the network. |
-| network/rx_rate | Number of bytes received over the network per second. |
-| network/tx | Cumulative number of bytes sent over the network |
-| network/tx_rate | Number of bytes sent over the network per second. |
-| uptime  | Number of milliseconds since the container was started. |
+### Supported Metrics
+* cpu/limit
+* cpu/node_allocatable
+* cpu/node_capacity
+* cpu/node_reservation
+* cpu/node_utilization
+* cpu/request
+* cpu/usage
+* cpu/usage_rate
+* filesystem/inodes
+* filesystem/inodes_free
+* filesystem/limit
+* filesystem/usage
+* memory/cache
+* memory/limit
+* memory/major_page_faults
+* memory/major_page_faults_rate
+* memory/node_allocatable
+* memory/node_capacity
+* memory/node_reservation
+* memory/node_utilization
+* memory/page_faults
+* memory/page_faults_rate
+* memory/request
+* memory/rss
+* memory/usage
+* memory/working_set
+* network/rx
+* network/rx_errors
+* network/rx_errors_rate
+* network/rx_rate
+* network/tx
+* network/tx_errors
+* network/tx_errors_rate
+* network/tx_rate
 
 ### Installing
 

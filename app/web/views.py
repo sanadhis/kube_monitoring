@@ -27,30 +27,30 @@ logger = logging.getLogger(__name__)
 @login_required(login_url='/web/login/')
 def index(request):
 
-    measurements = []
-    context = {
-                'measurements' : measurements
-               }
-
     try:
         path  = request.path
         table = re.findall(r'^/web/stats/(\S+)',path)[0]
     except IndexError:
         return redirect('/web/stats/index')
 
-    try:
-        query_measurement    = "SHOW MEASUREMENTS"
-        influxdb_measurement = query(query_measurement)
-        measurements         = list(influxdb_measurement.get_points())
-    except ConnectionError:
-        template = loader.get_template('adminlte/500.html')
-        context['title']  =  "500"
-        status = 500
-        logger.error("Connection Error: Check connection to Influxdb")
-
     # Set default request
     namespace = "default"
     limit     = "1000"
+    measurements = [
+                    "cpu/node_capacity",
+                    "cpu/usage",
+                    "cpu/usage_rate",
+                    "gpu/usage",
+                    "memory/node_capacity",
+                    "memory/usage",
+                    "memory/cache",
+                    "memory/rss",
+                    "network/rx",
+                    "network/rx_rate",
+                    "network/tx",
+                    "network/tx_rate",
+                    "uptime",
+                    ]
     context = {
                 'title'        : "Kube Monitoring",
                 'measurements' : measurements,

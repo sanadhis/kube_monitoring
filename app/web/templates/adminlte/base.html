@@ -38,7 +38,11 @@
           <td>{{ item.time }}</td>
           <td>{{ item.pod_name }}</td>
           <td>{{ item.namespace_name }}</td>
+          {% if item.container_name %}
           <td>{{ item.container_name }}</td>
+          {% else %}          
+          <td>#Not available</td>
+          {% endif %}    
           <td>{{ item.nodename }}</td>
           <td>{{ item.value }}</td>                   
         </tr>

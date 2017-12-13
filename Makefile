@@ -1,4 +1,4 @@
-all: build
+all: build push
 
 DOCKER_REPO?=sanadhis/kube-monitoring
 VERSION?=0.1

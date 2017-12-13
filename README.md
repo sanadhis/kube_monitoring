@@ -56,6 +56,10 @@ $ pip install Django
 * network/tx_errors_rate
 * network/tx_rate
 
+### Avoid Committing YAML with Credentials
+
+git update-index --assume-unchanged kube-monitoring.yaml
+
 ### Installing
 
 A step by step series of examples that tell you have to get a development env running

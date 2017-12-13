@@ -17,6 +17,12 @@ spec:
         image: sanadhis/kube-monitoring-app:0.1
         ports:
         - containerPort: 8000
+          protocol: TCP
+      - name: kube-monitoring-grafana
+        image: gcr.io/google_containers/heapster-grafana-amd64:v4.4.3
+        ports:
+        - containerPort: 3000
+          protocol: TCP
 ---
 kind: Service
 apiVersion: v1
@@ -28,6 +34,10 @@ spec:
     - port: 9428
       targetPort: 8000
       name: kube-monitoring-app
+      protocol: TCP
+    - port: 9427
+      targetPort: 3000
+      name: kube-monitoring-grafana
       protocol: TCP
   selector:
     app: kube-monitoring-app

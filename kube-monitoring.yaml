@@ -14,10 +14,21 @@ spec:
     spec:
       containers:
       - name: kube-monitoring-app
-        image: sanadhis/kube-monitoring-app:0.1
+        image: sanadhis/kube-monitoring:0.3
         ports:
         - containerPort: 8000
           protocol: TCP
+        env:
+        - name: INFLUXDB_HOST
+          value: ""
+        - name: INFLUXDB_PORT
+          value: "8086"
+        - name: INFLUXDB_USER
+          value: ""
+        - name: INFLUXDB_PASS
+          value: ""
+        - name: INFLUXDB_DB
+          value: ""
       - name: kube-monitoring-grafana
         image: gcr.io/google_containers/heapster-grafana-amd64:v4.4.3
         ports:

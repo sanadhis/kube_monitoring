@@ -10,7 +10,6 @@ from django.utils.decorators import method_decorator
 
 # Python native
 from requests.exceptions import ConnectionError
-from json.decoder import JSONDecodeError
 import json
 import logging
 import re
@@ -60,7 +59,7 @@ def index(request):
             try:
                 # Get request body
                 body = json.loads(request.body.decode())  
-            except JSONDecodeError:
+            except:
                 logger.info("No request body provided")
             
             try:

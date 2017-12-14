@@ -31,7 +31,7 @@ spec:
           value: ""
         - name: API_USERNAME
           value: ""
-        - name: API_USERNAME
+        - name: API_PASSWORD
           value: ""
       - name: kube-monitoring-grafana
         image: gcr.io/google_containers/heapster-grafana-amd64:v4.4.3

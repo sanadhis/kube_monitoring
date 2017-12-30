@@ -52,9 +52,12 @@ def index(request):
                 return JsonResponse(response_message, status=404, safe=False)
 
             # Set default request
-            namespace = "default"
-            limit     = "100"
-            body = {}
+            namespace   = "default"
+            limit       = "100"
+            body        = {}
+            agg         = False # either detail or general
+            timeBeginAt = "now()-10m"
+            timeEndAt   = "now()"
             
             try:
                 # Get request body
@@ -73,11 +76,34 @@ def index(request):
                 logger.info("Invalid request body, settings request limit property as default")   
 
             try:
-                influx_query   = 'SELECT * FROM "' + measurement + '" where namespace_name = \'' + namespace + '\' ORDER BY time desc LIMIT ' + limit
+                agg  = body['agg']
+            except:
+                logger.info("No aggregation requested")
+
+            try:
+                timeBeginAt  = "'" + body['timeBeginAt'] + "'" 
+                timeEndAt    = "'" + body['timeEndAt'] + "'" 
+            except:
+                logger.info("No aggregation requested")
+
+            try:
+                if agg == "detail":
+                    influx_query   = 'SELECT sum(value) from "' + measurement + '" where namespace_name = \'' + namespace + '\' and time > ' + timeBeginAt + ' and time < '+ timeEndAt + ' group by namespace_name,pod_name'
+                elif agg == "general":
+                    influx_query   = 'SELECT sum(value) from "' + measurement + '" where namespace_name != \'kube-system\' and time > ' + timeBeginAt + ' and time < '+ timeEndAt + ' group by namespace_name'                    
+                else:
+                    influx_query   = 'SELECT * FROM "' + measurement + '" where namespace_name = \'' + namespace + '\' ORDER BY time desc LIMIT ' + limit
                 logger.info(influx_query)
 
-                kube_data        = query(influx_query)                        
-                response_message = list(kube_data.get_points())
+                kube_data   = query(influx_query)
+                keys        = list(kube_data.keys()) 
+                data_points = list(kube_data.get_points())
+
+                for key, data_point in zip(keys,data_points):
+                    for k in key[1:]:
+                        data_point.update(k)
+                
+                response_message = data_points
                 status           = 200
             except ConnectionError as e:
                 logger.error("Connection to influxdb server fails")                        

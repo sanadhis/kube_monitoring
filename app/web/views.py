@@ -26,16 +26,26 @@ logger = logging.getLogger(__name__)
 @permission_classes((permissions.AllowAny,))
 @login_required(login_url='/web/login/')
 def index(request):
+    # Set default request
+    namespace = "all"
+    limit     = "1000"
 
     try:
-        path  = request.path
-        table = re.findall(r'^/web/stats/(\S+)',path)[0]
+        path        = request.path
+        query_stats = re.findall(r'^/web/stats/(\S+)',path)[0]
+        pattern     = re.findall(r'[^/]*/[^/]*',query_stats)
     except IndexError:
         return redirect('/web/stats/index')
 
-    # Set default request
-    namespace = "default"
-    limit     = "1000"
+    try:
+        table     = pattern[0]
+    except IndexError:
+        table = "index"
+
+    try:
+        namespace = pattern[1][1:]
+    except IndexError:
+        pass
 
     measurements = [
                 # "cpu/node_capacity",
@@ -71,7 +81,11 @@ def index(request):
         status   = 200                
     else:                
         try:
-            influx_query = 'SELECT * FROM "' + table + '" where namespace_name != \'\' ORDER BY time desc LIMIT ' + limit
+            if namespace == "all":
+                namespace_query = "namespace_name != ''"
+            else:
+                namespace_query = "namespace_name = '" + namespace + "'"
+            influx_query = 'SELECT * FROM "' + table + '" where ' + namespace_query + ' ORDER BY time desc LIMIT ' + limit
             stats        = query(influx_query)
             result       = list(stats.get_points())
             title        = (table.replace("/"," ")).upper()
@@ -79,7 +93,7 @@ def index(request):
         
             context['title']  =  title
             context['result'] = result
-            
+
             try:
                 context['unit'] = "- " + units[table]
             except KeyError:

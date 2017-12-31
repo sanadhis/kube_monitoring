@@ -37,8 +37,15 @@ def index(request):
     except IndexError:
         return redirect('/web/stats/index')
 
+    if query_stats.startswith("uptime"):
+        pattern = query_stats.split("/")
+        try:
+            pattern[1] = "/" + pattern[1]
+        except IndexError:
+            pass
+
     try:
-        table     = pattern[0]
+        table = pattern[0]
     except IndexError:
         table = "index"
 

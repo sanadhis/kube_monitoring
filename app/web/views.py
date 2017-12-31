@@ -36,21 +36,30 @@ def index(request):
     # Set default request
     namespace = "default"
     limit     = "1000"
+
     measurements = [
-                    "cpu/node_capacity",
-                    "cpu/usage",
-                    "cpu/usage_rate",
-                    "gpu/usage",
-                    "memory/node_capacity",
-                    "memory/usage",
-                    "memory/cache",
-                    "memory/rss",
-                    "network/rx",
-                    "network/rx_rate",
-                    "network/tx",
-                    "network/tx_rate",
-                    "uptime",
-                    ]
+                # "cpu/node_capacity",
+                # "cpu/usage",
+                "cpu/usage_rate",
+                "gpu/usage",
+                # "memory/node_capacity",
+                "memory/usage",
+                # "memory/cache",
+                # "memory/rss",
+                # "network/rx",
+                # "network/rx_rate",
+                # "network/tx",
+                # "network/tx_rate",
+                "uptime",
+                ]
+
+    units     = {
+                    "cpu/usage_rate":"millicores",
+                    "gpu/usage":"megabytes(MB)",
+                    "memory/usage":"bytes(B)",
+                    "uptime":"milliseconds",
+                }
+
     context = {
                 'title'        : "Kube Monitoring",
                 'measurements' : measurements,
@@ -71,6 +80,11 @@ def index(request):
             context['title']  =  title
             context['result'] = result
             
+            try:
+                context['unit'] = "- " + units[table]
+            except KeyError:
+                context['unit'] = ""
+
             status = 200            
             logger.info("Influxdb is working")
         except AttributeError as err:

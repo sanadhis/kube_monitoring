@@ -1,12 +1,12 @@
 all: build push
 
-DOCKER_REPO?=sanadhis/kube-monitoring
+IMAGE_NAME?=sanadhis/kube-monitoring
 VERSION?=0.1
 
 PWD:=$(shell pwd)
 
 build:
-	docker build -t $(DOCKER_REPO):$(VERSION) -f Dockerfile $(PWD)
+	docker build -t $(IMAGE_NAME):$(VERSION) -f Dockerfile $(PWD)
 
 push:
-	docker push $(DOCKER_REPO):$(VERSION)
+	docker push $(IMAGE_NAME):$(VERSION)

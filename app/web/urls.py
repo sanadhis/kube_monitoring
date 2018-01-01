@@ -8,9 +8,9 @@ from . import views, authentication
 urlpatterns = [
     url(r'^login/', views.render_login, name='login'),
     url(r'^login', RedirectView.as_view(url='login/', permanent=False), name='login'),    
-    url(r'^stats/', views.index, name='index'),
-    url(r'^stats', RedirectView.as_view(url='stats/', permanent=False), name='index'),    
+    url(r'^stats/', views.main, name='main'),
+    url(r'^stats', RedirectView.as_view(url='stats/', permanent=False), name='main'),    
     url(r'^authentication/signin', authentication.signin, name='signin'),
     url(r'^authentication/signout', authentication.signout, name='signout'),
-    url(r'^$', RedirectView.as_view(url='stats/', permanent=False), name='index'),
+    url(r'^$', RedirectView.as_view(url='stats/', permanent=False), name='main'),
 ]

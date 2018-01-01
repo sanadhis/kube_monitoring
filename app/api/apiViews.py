@@ -32,7 +32,7 @@ def filter_request(func):
         Args:
             request  (HttpRequest)  : User http request.
         Returns:
-            response (JsonResponse) : Response of the request in JSON format.
+            response (JsonResponse) : Response for the request in JSON format.
         """
 
         # Ignore request aside from HTTP POST
@@ -68,7 +68,7 @@ def verify_credentials(func):
         Args:
             request  (HttpRequest)  : User http request.
         Returns:
-            response (JsonResponse) : Response of the request in JSON format.
+            response (JsonResponse) : Response for the request in JSON format.
         """
         
         # get request credentials from request header
@@ -104,11 +104,11 @@ def verify_credentials(func):
 def main(request):
     """
     Main function to process http POST request.
-    Give appropriate response for metrics query.
+    Give appropriate JSON response for each metrics query.
     Args:
         request  (HttpRequest)  : User http request.
     Returns:
-        response (JsonResponse) : Response of the request in JSON format.
+        response (JsonResponse) : Response for the request in JSON format.
     """
 
     # Set default request properties
@@ -203,7 +203,7 @@ def main(request):
             # Execute query
             kube_data   = query(influx_query)
 
-            # form list from query's results; keys (group by key) and datapoints
+            # form list from query results; keys (group by key) and datapoints
             keys        = list(kube_data.keys()) 
             data_points = list(kube_data.get_points())
 

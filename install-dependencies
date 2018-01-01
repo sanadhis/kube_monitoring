@@ -1,27 +1,8 @@
 #!/bin/bash
-args1="$1"
 
-function setupDjangoWithPip() {
+function setup() {
+    # install dependencies with pip
     pip install --no-cache-dir -r requirements.txt
 }
 
-# conda doesn't has influxdb 4.1.1 and django-influxdb-metrics
-function setupDjangoWithConda() {
-    softwares=("django=1.11.5 \
-                djangorestframework=3.6.4 \
-                markdown=2.6.9 \
-                django-filter=1.0.4")
-    for software in $softwares
-    do
-        conda install -y -c conda-forge $software
-    done
-}
-
-if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
-    echo "Usage:"
-    echo "./install-dependencies {Python Package Manager}"
-elif [ "$args1" == "pip" ] ; then
-    setupDjangoWithPip
-elif [ "$args1" == "conda" ] ; then
-    setupDjangoWithConda
-fi
+setup

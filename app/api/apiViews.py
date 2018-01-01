@@ -1,12 +1,11 @@
 # Influxdb core
-from influxdb               import InfluxDBClient
 from influxdb_metrics.utils import query
 from influxdb.exceptions    import InfluxDBClientError
 
 # Django core
-from django.http import JsonResponse
+from django.http                  import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from django.utils.decorators      import method_decorator
 
 # Python native
 from requests.exceptions import ConnectionError
@@ -165,7 +164,7 @@ def main(request):
     try:
         # case if aggregation is not requested
         # perform query based on namespace, limit, and time
-        if not metric_aggregation == "pod-per-namespace" and not metric_aggregation == "all-pod" and not metric_aggregation == "all-namespace":
+        if not metric_aggregation == "pod-by-namespace" and not metric_aggregation == "all-pod" and not metric_aggregation == "all-namespace":
             influx_query = 'SELECT * FROM "' + measurement \
                             + '" where namespace_name = \'' + namespace + '\'' \
                             + ' and time > ' + time_begin_interval \
@@ -178,7 +177,7 @@ def main(request):
         # case if aggregation is requested
         else:
             # formulate query to see usage by each pod in a namespace
-            if metric_aggregation == "pod-per-namespace":
+            if metric_aggregation == "pod-by-namespace":
                 influx_query   = 'SELECT sum(value) from "' + measurement \
                                     + '" where namespace_name = \'' + namespace + '\'' \
                                     + ' and time > ' + time_begin_interval \

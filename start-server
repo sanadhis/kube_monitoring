@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# execute this script with port number in which for application to run
+# the application will write logs into /logs/kube-monitoring
+# note that this application will not run if /logs/kube-monitoring is not writtable
+
 args1="$1"
 
 if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
@@ -7,7 +12,7 @@ if [ "$args1" == "--help" ] || [ "$args1" == "help" ] ; then
 else
     port="$1"
     pushd "./app"
-    if mkdir -p /logs/kube-monitoring ; then # this should working inside docker
+    if mkdir -p /logs/kube-monitoring ; then # this should be working fine inside docker
         echo "Success creating logs dir"
         python manage.py runserver 0:$port        
     else

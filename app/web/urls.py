@@ -3,6 +3,8 @@ from django.views.generic.base import RedirectView
 
 from . import views, authentication
 
+# default url pattern -> /web/stats/index
+# without login       -> /web/login/
 urlpatterns = [
     url(r'^login/', views.render_login, name='login'),
     url(r'^login', RedirectView.as_view(url='login/', permanent=False), name='login'),    

@@ -138,6 +138,7 @@ REST_FRAMEWORK = {
 }
 
 ### Influxdb Settings ###
+# Obtain influxdb server properties and credentials access from environment
 INFLUXDB_HOST      = os.getenv("INFLUXDB_HOST","localhost")
 INFLUXDB_PORT      = os.getenv("INFLUXDB_PORT","8086")
 INFLUXDB_USER      = os.getenv("INFLUXDB_USER","root")
@@ -146,18 +147,18 @@ INFLUXDB_DATABASE  = os.getenv("INFLUXDB_DB","k8s")
 INFLUXDB_TAGS_HOST = os.getenv("INFLUXDB_HOST","localhost")
 
 # Seconds to wait for the request to the influxdb server before timing out
-INFLUXDB_TIMEOUT = 5
-
+INFLUXDB_TIMEOUT       = 5
 # Set to true if connection to Influxdb is HTTPS
-INFLUXDB_SSL = False # default is False
-
+INFLUXDB_SSL           = False # default is False
 # Set this to True if you are using Celery
-INFLUXDB_USE_CELERY = False
+INFLUXDB_USE_CELERY    = False
 # Set this to True if you are not using Celery
 INFLUXDB_USE_THREADING = False
 
-## Custom logging settting
+### Custom logging setting ###
+# Override default logging
 LOGGING_CONFIG = None
+# Use logging format provided in log.yaml
 with open("kube_monitoring/log.yaml", "r") as ymlfile:
     config = yaml.load(ymlfile)
 logging.config.dictConfig(config)

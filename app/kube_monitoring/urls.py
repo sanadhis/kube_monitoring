@@ -14,12 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from rest_framework import routers
-from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
+# default pattern goes to /web
+# aside from /api will be redirected to /web
 urlpatterns = [
     url(r'^', include('web.urls')),
     url(r'^api/', include('api.urls')),

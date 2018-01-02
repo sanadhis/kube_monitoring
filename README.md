@@ -1,23 +1,25 @@
-# Django - Kubernetes Monitoring
+# Kube-App: Monitoring Kubernetes Metrics
 
+## Overview
+This application consists of two sub-applications; **REST API** and **Web UI**, which both are exposed on the same port.
+* REST API: HTTP API of application backend. Accessed via `/api` path.
+* Web UI: Web application to display main metrics/measurements of kubernetes. Accessed via `/web` path
+
+## Purposes
 This application aims to:
-* Create trusted and reliable system to accurately monitor jobs' resource utilization (CPU,Memory,Storage,GPU) in each containers' across a Kubernetes cluster.
-* Storing resource utilization data to database.
-* Provide an interface between database and EPFL's SIFAC billing system. 
+* Create trusted and reliable system to accurately monitor jobs' resource utilization (CPU,Memory,GPU) in each containers' across a Kubernetes cluster.
+* Provide an interface between metrics database and EPFL's SIFAC billing system. 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### Development - Prerequisites
 
-To run, you need to install python and django
+To run the application for development, you need to install minimum dependencies, listed on `requirements.txt` file. To install, execute:
 
 ```
-$ #check python version
-$ python -V
-$ #install django with pip
-$ pip install Django
+$ ./install-dependencies
 ```
 
 ### Supported Metrics for API

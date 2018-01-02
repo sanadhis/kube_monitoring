@@ -57,24 +57,16 @@ $ ./start-server 8000
 ```
 
 ## Metrics
+**Note** that there are **main metrics** and **available metrics**.
+* *Main metrics* : Metrics/measurement that count for accounting utilization (usage) by pods. Basically, the utilization/usage rate of compute resources will be measured based on these metrics.
+* *Available metrics*: Metrics/measurement that available for query both in API and Web.
 
-
-### Supported Metrics for Web
+### Main Metrics for API & Web
 | Metric Name | Description |
 |------------|-------------|
-| cpu/node_capacity | Cpu capacity of a node. |
-| cpu/usage | Cumulative CPU usage on all cores. |
 | cpu/usage_rate | CPU usage on all cores in millicores. |
 | gpu/usage | The usage on all gpus in Megabytes |
-| memory/node_capacity | Memory capacity of a node. |
 | memory/usage | Total memory usage. |
-| memory/cache | Cache memory usage. |
-| memory/rss | RSS memory usage. |
-| network/rx | Cumulative number of bytes received over the network. |
-| network/rx_rate | Number of bytes received over the network per second. |
-| network/tx | Cumulative number of bytes sent over the network |
-| network/tx_rate | Number of bytes sent over the network per second. |
-| uptime  | Number of milliseconds since the container was started. |
 
 ### Available Metrics for API and Web
 | Metric Name | Description |
@@ -117,15 +109,59 @@ $ ./start-server 8000
 | network/tx_rate | Number of bytes sent over the network per second. |
 | uptime  | Number of milliseconds since the container was started. |
 
+## API
+
+### Directory
+
+### Usage
+
+## Web
+
+### Directory
+
+### Usage
+
+### Creating User
+
 ## Deployment into Production
+It is encouraged to deploy the application in the Kubernetes cluster as well, as the application is stateless and act only as an interface into influxdb instance.
 
 ### Building Docker Image
+Build the image using make command:
+```
+$ make build IMAGE_NAME="<image_name>" VERSION="<version>"
+```
+Push to dockerhub:
+```
+$ make push IMAGE_NAME="<image_name>" VERSION="<version>"
+```
+Or build and push at once. For example:
+```
+# Example build and push command with default image name and version
+$ make all IMAGE_NAME=sanadhis/kube-monitoring VERSION=0.1
+```
 
-### Deploying with Kubernetes
+### Deploying to Kubernetes
+First, fill in the environment variables in `kube-monitoring.yaml`; **INFLUXDB_HOST**, **INFLUXDB_PORT**, **INFLUXDB_USER**, **INFLUXDB_PASS**, **INFLUXDB_DB**, **API_USERNAME**, **API_PASSWORD**. 
+
+Ensure that you use the corresponding image name and version in `kube-monitoring.yaml`. Then, simply execute:
+```
+$ kubectl create -f kube-monitoring.yaml
+```
 
 ### Avoid Committing YAML with Credentials
-
+To avoid accidental commit of your account credentials information, ignore `kube-monitoring.yaml` by executing:
+```
 git update-index --assume-unchanged kube-monitoring.yaml
+```
+
+### Accessing Services
+If you look closely, the **kube-monitoring** deployment comes with *Grafana v4.4.3*. Thus you can access the grafana and the application itself once you successfully deployed the YAML file.
+
+To find the port of application (default by NodePort)
+```
+$ kubectl get svc | grep kube-monitoring
+```
 
 ## Miscellaneous
 ## Built With

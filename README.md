@@ -65,8 +65,8 @@ $ ./start-server 8000
 | Metric Name | Description |
 |------------|-------------|
 | cpu/usage_rate | CPU usage on all cores in millicores. |
-| gpu/usage | The usage on all gpus in Megabytes |
-| memory/usage | Total memory usage. |
+| gpu/usage | The usage on all gpus in megabytes. |
+| memory/usage | Total memory usage in bytes. |
 
 ### Available Metrics for API and Web
 | Metric Name | Description |
@@ -156,31 +156,37 @@ git update-index --assume-unchanged kube-monitoring.yaml
 ```
 
 ### Accessing Services
-If you look closely, the **kube-monitoring** deployment comes with *Grafana v4.4.3*. Thus you can access the grafana and the application itself once you successfully deployed the YAML file.
+If you look closely, the **kube-monitoring** deployment comes with **Grafana v4.4.3**. Thus you can access the grafana and the application itself once you successfully deployed the YAML file.
 
 To find the port of application (default by NodePort)
 ```
 $ kubectl get svc | grep kube-monitoring
 ```
+Test the application or grafana
+```
+$ curl <hostname>:<application_port>/api
+$ curl <hostname>:<application_port>/web
+$ curl <hostname>:<grafana_port>
+```
 
 ## Miscellaneous
-## Built With
+### Built With
 
 * [Django](https://docs.djangoproject.com/en/1.11/releases/1.11.5) - The web framework used
 
-## Versioning
+### Versioning
 
 TBD
 
-## Authors
+### Authors
 
 * **Sanadhi Sutandi** [@sanadhis](https://github.com/sanadhis)
 
-## License
+### License
 
 This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+### Acknowledgments
 
 * [EPFL VLSC](https://vlsc.epfl.ch/)
 * [EPFL SIFAC](https://github.com/EPFL-IC)

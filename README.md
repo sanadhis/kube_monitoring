@@ -110,6 +110,8 @@ To run, simply execute the start script to start the application and pass the de
 | uptime  | Number of milliseconds since the container was started. |
 
 # The Application
+For both API and WEB, it is possible to discover all **available metrics** by specifying which metric in **URL path** for each request. However, you have to type manually in the web application as non-main kubernetes metrics are not really concerned in this project.
+
 ## Project Structure
 ------------
     ├── app
@@ -145,7 +147,7 @@ The details of HTTP requests:
     * `timeBeginInterval` : The starting time range of query. *Default is 60 minutes from the current time of query*
     * `timeEndInterval`   : The ending time range of query. *Default is the current time of query*
 
-### Usage
+### Using the API
 There are four ways of using the HTTP API according to provided aggregation schemes:
 1. Without aggregation
 <br> To perform request without aggegration, simply set `agg` in HTTP request body into other values or left it empty.
@@ -156,13 +158,26 @@ There are four ways of using the HTTP API according to provided aggregation sche
 4. Aggeration by pods
 <br> Set `agg` in HTTP request body into `all-pod`. `Limit` and `namespace` will be ignored.
 
+#### Example using curl
+```
+curl -X POST \
+  http://<app_hostname>:<app_port>/api/cpu/usage_rate \
+  -H 'x-password: <password>' \
+  -H 'x-username: <password>' \
+  -d '{
+  "agg":"pod-by-namespace",
+  "timeBeginInterval": "2017-12-01",
+  "timeEndInterval": "2017-12-31"
+}'
+```
+
 ## Web
 It is pretty straightforward to use the web. Login into the web and navigate using the main left sidebar to view main metrics of kubernetes monitoring.
 
-### Advanced Usage - Filter by namespace
+### Advanced Usage - Filter by namespace on the Web
 However, it is possible to filter metrics based on namespace. To do so add `/[namespace]` at the end of `/web/stats/[metrics]`. For example if you want to highlight namespace "cluster-3" for its cpu/usage_rate, simply hit on browser url the following: `<hostname>:<port>/web/stats/gpu/usage_rate/cluster-3`
 
-### Creating User
+### Creating User for the Web
 To add user account for accessing the web, execute the following in the terminal:
 ```
 python app/manage.py createuser --username=<username> --email=<email>
@@ -222,7 +237,7 @@ curl <hostname>:<grafana_port>
 
 ### Versioning
 
-TBD
+* Version 1.0 : 1st January 2018
 
 ### Authors
 

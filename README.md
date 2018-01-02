@@ -14,7 +14,7 @@ This application aims to:
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Development - Prerequisites
+### 1. Dependencies
 
 To run the application for development, you need to install minimum dependencies, listed on `requirements.txt` file. To install, execute:
 
@@ -22,7 +22,61 @@ To run the application for development, you need to install minimum dependencies
 $ ./install-dependencies
 ```
 
-### Supported Metrics for API
+### 2. Environment Variables
+
+Export several environment variables before running the application:
+
+```
+# Configurations to connect and read to and from influxdb instance
+$ export INFLUXDB_HOST="<your_influxdb_instance_hostname>"
+$ export INFLUXDB_PORT="<your_influxdb_instance_port>"
+$ export INFLUXDB_USER="<your_influxdb_account_username>"
+$ export INFLUXDB_PASS="<your_influxdb_account_password>"
+$ export INFLUXDB_DB="<your_influxdb_db_name>"
+
+# Configurations for API authentication
+$ export API_USERNAME="<username>"
+$ export API_PASSWORD="<password>"
+```
+
+### 3. Logging
+
+Create the default logging directory of the application and make it writable for user program.
+```
+sudo mkdir -p /logs/kube-monitoring
+sudo chown $(id -u):$(id -g) /logs/kube-monitoring
+```
+
+### 4. Starting Application
+
+To run, simply execute the start script to start the application and pass the desired port number as an argument.
+
+```
+# Example
+$ ./start-server 8000
+```
+
+## Metrics
+
+
+### Supported Metrics for Web
+| Metric Name | Description |
+|------------|-------------|
+| cpu/node_capacity | Cpu capacity of a node. |
+| cpu/usage | Cumulative CPU usage on all cores. |
+| cpu/usage_rate | CPU usage on all cores in millicores. |
+| gpu/usage | The usage on all gpus in Megabytes |
+| memory/node_capacity | Memory capacity of a node. |
+| memory/usage | Total memory usage. |
+| memory/cache | Cache memory usage. |
+| memory/rss | RSS memory usage. |
+| network/rx | Cumulative number of bytes received over the network. |
+| network/rx_rate | Number of bytes received over the network per second. |
+| network/tx | Cumulative number of bytes sent over the network |
+| network/tx_rate | Number of bytes sent over the network per second. |
+| uptime  | Number of milliseconds since the container was started. |
+
+### Available Metrics for API and Web
 | Metric Name | Description |
 |------------|-------------|
 | cpu/limit | CPU hard limit in millicores. |
@@ -63,76 +117,20 @@ $ ./install-dependencies
 | network/tx_rate | Number of bytes sent over the network per second. |
 | uptime  | Number of milliseconds since the container was started. |
 
-### Supported Metrics for Web
-| Metric Name | Description |
-|------------|-------------|
-| cpu/node_capacity | Cpu capacity of a node. |
-| cpu/usage | Cumulative CPU usage on all cores. |
-| cpu/usage_rate | CPU usage on all cores in millicores. |
-| gpu/usage | The usage on all gpus in Megabytes |
-| memory/node_capacity | Memory capacity of a node. |
-| memory/usage | Total memory usage. |
-| memory/cache | Cache memory usage. |
-| memory/rss | RSS memory usage. |
-| network/rx | Cumulative number of bytes received over the network. |
-| network/rx_rate | Number of bytes received over the network per second. |
-| network/tx | Cumulative number of bytes sent over the network |
-| network/tx_rate | Number of bytes sent over the network per second. |
-| uptime  | Number of milliseconds since the container was started. |
+## Deployment into Production
+
+### Building Docker Image
+
+### Deploying with Kubernetes
 
 ### Avoid Committing YAML with Credentials
 
 git update-index --assume-unchanged kube-monitoring.yaml
 
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-TBD
-
-```
-TBD
-```
-
-And repeat
-
-```
-until finished
-```
-
-TBD
-
-## Running the tests
-
-TBD
-
-### Break down into end to end tests
-
-TBD
-
-```
-TBD
-```
-
-### And coding style tests
-
-TBD
-
-```
-TBD
-```
-
-## Deployment
-
-TBD
-
+## Miscellaneous
 ## Built With
 
 * [Django](https://docs.djangoproject.com/en/1.11/releases/1.11.5) - The web framework used
-
-## Contributing
-
-TBD
 
 ## Versioning
 
@@ -148,5 +146,6 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LIC
 
 ## Acknowledgments
 
-* EPFL's VLSC
+* [EPFL VLSC](https://vlsc.epfl.ch/)
+* [EPFL SIFAC](https://github.com/EPFL-IC)
 

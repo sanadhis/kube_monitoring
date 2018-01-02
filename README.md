@@ -2,8 +2,8 @@
 
 ## Overview
 This application consists of two sub-applications; **REST API** and **Web UI**, which both are exposed on the same port.
-* REST API: HTTP API of application backend. Accessed via `/api` path.
-* Web UI: Web application to display main metrics/measurements of kubernetes. Accessed via `/web` path
+* REST API: HTTP API of application backend. Accessed via `/api` in path.
+* Web UI: Web application to display main metrics/measurements of kubernetes. Accessed via `/web` in path.
 
 ## Purposes
 This application aims to:
@@ -19,7 +19,7 @@ These instructions will get you a copy of the project up and running on your loc
 To run the application for development, you need to install minimum dependencies, listed on `requirements.txt` file. To install, execute:
 
 ```
-$ ./install-dependencies
+./install-dependencies
 ```
 
 ### 2. Environment Variables
@@ -28,15 +28,15 @@ Export several environment variables before running the application:
 
 ```
 # Configurations to connect and read to and from influxdb instance
-$ export INFLUXDB_HOST="<your_influxdb_instance_hostname>"
-$ export INFLUXDB_PORT="<your_influxdb_instance_port>"
-$ export INFLUXDB_USER="<your_influxdb_account_username>"
-$ export INFLUXDB_PASS="<your_influxdb_account_password>"
-$ export INFLUXDB_DB="<your_influxdb_db_name>"
+export INFLUXDB_HOST="<your_influxdb_instance_hostname>"
+export INFLUXDB_PORT="<your_influxdb_instance_port>"
+export INFLUXDB_USER="<your_influxdb_account_username>"
+export INFLUXDB_PASS="<your_influxdb_account_password>"
+export INFLUXDB_DB="<your_influxdb_db_name>"
 
 # Configurations for API authentication
-$ export API_USERNAME="<username>"
-$ export API_PASSWORD="<password>"
+export API_USERNAME="<username>"
+export API_PASSWORD="<password>"
 ```
 
 ### 3. Logging
@@ -53,7 +53,7 @@ To run, simply execute the start script to start the application and pass the de
 
 ```
 # Example
-$ ./start-server 8000
+./start-server 8000
 ```
 
 ## Metrics
@@ -109,19 +109,39 @@ $ ./start-server 8000
 | network/tx_rate | Number of bytes sent over the network per second. |
 | uptime  | Number of milliseconds since the container was started. |
 
-## API
+# The Application
+## Project Structure
+------------
+    ├── app
+    │   ├── api             : Directory containing all views, and urls settings for API.
+    │   ├── kube-monitoring : Directory containing Django project main settings, urls configuration, custom logging spec.
+    │   ├── web             : Directory containing All methods, views, and urls settings for Web.
+    │   ├── manage.py       : Script to manage administrative settings of the project.
+    
+------------
 
-### Directory
+## Logging
+For both API and web, the application will write its logging to **info.log** and **errors.log** in `/logs/kube-monitoring`. To trace either debug, info or error in application:
+```
+tail -f /logs/kube-monitoring/info.log
+# or
+tail -f /logs/kube-monitoring/errors.log
+```
+
+## API
 
 ### Usage
 
 ## Web
 
-### Directory
-
 ### Usage
 
 ### Creating User
+To add user account for accessing the web, execute the following in the terminal:
+```
+python app/manage.py createuser --username=<username> --email=<email>
+```
+**Note** that you will be prompted the password afterwards.
 
 ## Deployment into Production
 It is encouraged to deploy the application in the Kubernetes cluster as well, as the application is stateless and act only as an interface into influxdb instance.
@@ -129,16 +149,16 @@ It is encouraged to deploy the application in the Kubernetes cluster as well, as
 ### Building Docker Image
 Build the image using make command:
 ```
-$ make build IMAGE_NAME="<image_name>" VERSION="<version>"
+make build IMAGE_NAME="<image_name>" VERSION="<version>"
 ```
 Push to dockerhub:
 ```
-$ make push IMAGE_NAME="<image_name>" VERSION="<version>"
+make push IMAGE_NAME="<image_name>" VERSION="<version>"
 ```
 Or build and push at once. For example:
 ```
 # Example build and push command with default image name and version
-$ make all IMAGE_NAME=sanadhis/kube-monitoring VERSION=0.1
+make all IMAGE_NAME=sanadhis/kube-monitoring VERSION=0.1
 ```
 
 ### Deploying to Kubernetes
@@ -146,7 +166,7 @@ First, fill in the environment variables in `kube-monitoring.yaml`; **INFLUXDB_H
 
 Ensure that you use the corresponding image name and version in `kube-monitoring.yaml`. Then, simply execute:
 ```
-$ kubectl create -f kube-monitoring.yaml
+kubectl create -f kube-monitoring.yaml
 ```
 
 ### Avoid Committing YAML with Credentials
@@ -158,15 +178,15 @@ git update-index --assume-unchanged kube-monitoring.yaml
 ### Accessing Services
 If you look closely, the **kube-monitoring** deployment comes with **Grafana v4.4.3**. Thus you can access the grafana and the application itself once you successfully deployed the YAML file.
 
-To find the port of application (default by NodePort)
+To find the port of application (default by NodePort):
 ```
-$ kubectl get svc | grep kube-monitoring
+kubectl get svc | grep kube-monitoring
 ```
-Test the application or grafana
+Test the application or grafana:
 ```
-$ curl <hostname>:<application_port>/api
-$ curl <hostname>:<application_port>/web
-$ curl <hostname>:<grafana_port>
+curl <hostname>:<application_port>/api
+curl <hostname>:<application_port>/web
+curl <hostname>:<grafana_port>
 ```
 
 ## Miscellaneous

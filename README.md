@@ -65,7 +65,7 @@ To run, simply execute the start script to start the application and pass the de
 | Metric Name | Description |
 |------------|-------------|
 | cpu/usage_rate | CPU usage on all cores in millicores. |
-| gpu/usage | The usage on all gpus in megabytes. |
+| gpu/usage | The usage of all gpus in megabytes. |
 | memory/usage | Total memory usage in bytes. |
 
 ### Available Metrics for API and Web
@@ -129,12 +129,38 @@ tail -f /logs/kube-monitoring/errors.log
 ```
 
 ## API
+The API service is available in `/api/[metrics]` path and works only with **HTTP POST**. Any other HTTP method will be rejected.
+Alongside the HTTP request, **X-USERNAME** and **X-PASSWORD** must be presented in HTTP request headers. The contents of these headers should match **API_USERNAME** and **API_PASSWORD** that are exported in environment.  
+
+The details of HTTP requests:
+* HTTP Method: `POST`
+* HTTP Path: `/api/[metrics]`, for example `/api/cpu/usage_rate`
+* HTTP Headers:
+    * `X-USERNAME` : username for the HTTP request
+    * `X-PASSWORD` : password for the HTTP request
+* Request body:
+    * `namespace` : the specific namespace (virtual cluster) in kubernetes cluster. *Default is "default" namespace*
+    * `limit` : the desired number of how much the datapoints should be returned to client. *Default is 100 datapoints*
+    * `agg`   : the type of aggregation needed. *Default is None*, options are: `pod-by-namespace`, `all-namespace`, `all-pod`.
+    * `timeBeginInterval` : The starting time range of query. *Default is 60 minutes from the current time of query*
+    * `timeEndInterval`   : The ending time range of query. *Default is the current time of query*
 
 ### Usage
+There are four ways of using the HTTP API according to provided aggregation schemes:
+1. Without aggregation
+<br> To perform request without aggegration, simply set `agg` in HTTP request body into other values or left it empty.
+2. Aggregation by pods per namespace
+<br> Set `agg` in HTTP request body into `pod-by-namespace`. `Limit` will be ignored.
+3. Aggegation by namespace
+<br> Set `agg` in HTTP request body into `all-namespace`. `Limit` and `namespace` will be ignored.
+4. Aggeration by pods
+<br> Set `agg` in HTTP request body into `all-pod`. `Limit` and `namespace` will be ignored.
 
 ## Web
+It is pretty straightforward to use the web. Login into the web and navigate using the main left sidebar to view main metrics of kubernetes monitoring.
 
-### Usage
+### Advanced Usage - Filter by namespace
+However, it is possible to filter metrics based on namespace. To do so add `/[namespace]` at the end of `/web/stats/[metrics]`. For example if you want to highlight namespace "cluster-3" for its cpu/usage_rate, simply hit on browser url the following: `<hostname>:<port>/web/stats/gpu/usage_rate/cluster-3`
 
 ### Creating User
 To add user account for accessing the web, execute the following in the terminal:

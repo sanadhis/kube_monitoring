@@ -167,8 +167,8 @@ def main(request):
         if not metric_aggregation == "pod-by-namespace" and not metric_aggregation == "all-pod" and not metric_aggregation == "all-namespace":
             influx_query = 'SELECT * FROM "' + measurement \
                             + '" where namespace_name = \'' + namespace + '\'' \
-                            + ' and time > ' + time_begin_interval \
-                            + ' and time < ' + time_end_interval \
+                            + ' and time >= ' + time_begin_interval \
+                            + ' and time <= ' + time_end_interval \
                             + ' ORDER BY time desc' \
                             + ' LIMIT ' + limit
             kube_data    = query(influx_query)
@@ -180,24 +180,24 @@ def main(request):
             if metric_aggregation == "pod-by-namespace":
                 influx_query   = 'SELECT sum(value) from "' + measurement \
                                     + '" where namespace_name = \'' + namespace + '\'' \
-                                    + ' and time > ' + time_begin_interval \
-                                    + ' and time < ' + time_end_interval \
+                                    + ' and time >= ' + time_begin_interval \
+                                    + ' and time <= ' + time_end_interval \
                                     + ' group by namespace_name,pod_name'
 
             # formulate query to see usage by all pods
             elif metric_aggregation == "all-pod":
                 influx_query   = 'SELECT sum(value) from "' + measurement \
                                     + '" where namespace_name != \'kube-system\'' \
-                                    + ' and time > ' + time_begin_interval \
-                                    + ' and time < ' + time_end_interval \
+                                    + ' and time >= ' + time_begin_interval \
+                                    + ' and time <= ' + time_end_interval \
                                     + ' group by pod_name'   
 
             # formulate query to see usage accumulated per namespace-based
             elif metric_aggregation == "all-namespace":
                 influx_query   = 'SELECT sum(value) from "' + measurement \
                                     + '" where namespace_name != \'kube-system\'' \
-                                    + ' and time > ' + time_begin_interval \
-                                    + ' and time < ' + time_end_interval \
+                                    + ' and time >= ' + time_begin_interval \
+                                    + ' and time <= ' + time_end_interval \
                                     + ' group by namespace_name'                    
 
             # Execute query

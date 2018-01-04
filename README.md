@@ -144,8 +144,8 @@ The details of HTTP requests:
     * `namespace` : the specific namespace (virtual cluster) in kubernetes cluster. *Default is "default" namespace*
     * `limit` : the desired number of how much the datapoints should be returned to client. *Default is 100 datapoints*
     * `agg`   : the type of aggregation needed. *Default is None*, options are: `pod-by-namespace`, `all-namespace`, `all-pod`.
-    * `timeBeginInterval` : The starting time range (inclusive) of query. *Default is 60 minutes from the current time of query*
-    * `timeEndInterval`   : The ending time range (inclusive) of query. *Default is the current time of query*
+    * `timeBeginInterval` : The starting time range (**inclusive**) of query. *Default is 60 minutes from the current time of query*
+    * `timeEndInterval`   : The ending time range (**exclusive**) of query. *Default is the current time of query*
 
 ### Using the API
 There are four ways of using the HTTP API according to provided aggregation schemes:
@@ -170,6 +170,7 @@ curl -X POST \
   "timeEndInterval": "2017-12-31"
 }'
 ```
+**This example will result the aggregated metrics from 1 December 2017 (00:00 AM) *until* 30 December 2017 (23:59 PM)**.
 
 ## Web
 It is pretty straightforward to use the web. Login into the web and navigate using the main left sidebar to view main metrics of kubernetes monitoring.

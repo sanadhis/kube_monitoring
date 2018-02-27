@@ -181,7 +181,7 @@ However, it is possible to filter metrics based on namespace. To do so add `/[na
 ### Creating User for the Web
 To add user account for accessing the web, execute the following in the terminal:
 ```
-python app/manage.py createuser --username=<username> --email=<email>
+python app/manage.py createsuperuser --username=<username> --email=<email>
 ```
 **Note** that you will be prompted the password afterwards.
 
